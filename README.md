@@ -59,7 +59,8 @@ With our desired state now present on the network, let&#39;s immediate use pyATS
 
 ![](7.png)
 
-pyATS has successfully profiled our desired state and you will notice the addition of a new directory called &quot;_desired-ospf_&quot; which houses of all of our detailed OSPF information for each device. Now that we have pushed our desired state and successfully created a snapshot for future comparison, let&#39;s look at the main script which we will use for our OSPF management going forward, &quot;_Pynir.py_&quot;. The script is relatively long so let&#39;s break it down into sections. First we begin with our imports - and I have also included a Pyfiglet banner for purely aesthetic purposes (who doesn&#39;t like to make their scripts pretty, right?).
+pyATS has successfully profiled our desired state and you will notice the addition of a new directory called &quot;_desired-ospf_&quot; which houses of all of our detailed OSPF information for each device. 
+Now that we have pushed our desired state and successfully created a snapshot for future comparison, let&#39;s look at the main script which we will use for our OSPF management going forward, &quot;_Pynir.py_&quot;. The script is relatively long so let&#39;s break it down into sections. First we begin with our imports - and I have also included a Pyfiglet banner for purely aesthetic purposes (who doesn&#39;t like to make their scripts pretty, right?).
 
 ![](8.png)
 
@@ -85,6 +86,7 @@ Lastly, should the script detect no changes between the current state of our OSP
 
 ![](13.png)
 
+------------------------------------------------------------------------------------------------------------------------------
 Now that we understand the logic of the script, let&#39;s perform a demo and see the workflow in action. Now remember, we have already deployed our initial desired state and captured that snapshot using both the _nornir-ospf.py_ and _capture-golden_ scripts. Let&#39;s first &quot;break&quot; the network by adding some unwanted OSPF configurations on R8:
 
 ![](14.png)
@@ -128,3 +130,4 @@ As you can see, combining Nornir with pyATS can allow us to easily monitor and r
 You can download the script and all subsequent configurations at:
 
 [https://github.com/IPvZero/pynir](https://github.com/IPvZero/pynir)
+
