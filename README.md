@@ -56,7 +56,7 @@ This is a fairly typical script which will pull information from the desired sta
 
 ![](6.png)
 
-With our desired state now present on the network, let&#39;s immediate use pyATS to build a detailed profile of that configuration and grab our &quot;golden&quot; snapshot. Let&#39;s execute the _capture-golden_ script:
+With our desired state now present on the network, let&#39;s immediately use pyATS to build a detailed profile of that configuration and grab our &quot;golden&quot; snapshot. Let&#39;s execute the _capture-golden_ script:
 
 ![](7.png)
 
