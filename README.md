@@ -3,7 +3,6 @@
 This tutorial aims to provide a simple use-case for combining Nornir and pyATS together in order to profile your current network configurations and implement desired state - as specified in host variable definition files.
 
 The workflow we will follow in this tutorial will be first:
-
 - Deploy OSPF desired state using Nornir
 - Immediately deploying pyATS to capture a golden image profile of this &quot;desired state&quot;
 ----------------------------------------------------------------------------------------------------
