@@ -18,7 +18,7 @@ After we have conducted the initial steps we like then deploy a python script (P
 
 To begin, let&#39;s first look at the directory structure and setup:
 
-![](RackMultipart20200503-4-106ac6n_html_111579ea2da1d8fe.png)
+![](1.png)
 
 As you can see we can our basic Nornir yaml files:
 
@@ -30,13 +30,13 @@ As well as a &quot;_testbed.yaml_&quot; file to allow pyATS to connect into and 
 
 Importantly, you&#39;ll notice a &quot;_capture-golden_&quot; file. This is a very simple bash script used to capture our &quot;golden&quot; snapshot of our desired OSPF state. It simply executes a pyATS command. You can type this command by hand should you wish, but since the output directory has to remain the same since it will be referenced by the _Pynir.py_ script – for consistency, I have elected to execute it from a bash script to prevent me mistyping the output destination. Let&#39;s use Vim and look inside to see what&#39;s going on:
 
-![](RackMultipart20200503-4-106ac6n_html_a1b3de6a2c5c6f18.png)
+![](2.png)
 
 As you can see the bash script simply tells pyATS to learn the network&#39;s OSPF configurations and save the output into a directory called &quot;_desired-ospf_&quot;. This directory will act as our reference point.
 
 Let&#39;s take a look inside the _host\_vars_ directory and see what our host variable definition files look like. For brevity, let&#39;s just look at _R1.yaml_:
 
-![](RackMultipart20200503-4-106ac6n_html_664bd9384f68cc1e.png)
+![](3.png)
 
 We have a very basic OSPF setup which lists the process ID number, the RID, and the network statement configs for the router. R2 through to R8 have very similar configurations. As this is simply a demo, I have created easily identifiable variations between files. For example, R5 uses OSPF process ID of 5, with a RID of 5.5.5.5 and the networks it advertises are &quot;192.168.5.0&quot; and &quot;192.168.50.0&quot;. These files represent our desired state. In other words, this is what our network &quot;should look like&quot;.
 
