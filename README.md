@@ -28,7 +28,7 @@ As you can see we can our basic Nornir yaml files:
 - _groups.yaml_
 - _defaults.yaml_
 
-As well as a &quot;_testbed.yaml_&quot; file to allow pyATS to connect into and profile the network. Next, you&#39;ll notice we also have two directories. The first one called &quot;_host\_vars_&quot; which will house our OSPF host variables (note: you can use the _hosts.yaml_ file instead, but I have chosen to create a separate directory to perform this task). The second is called &quot;_templates_&quot; which will house our OSPF Jinja2 template.
+Notice that there is also a &quot;_testbed.yaml_&quot; file to allow pyATS to connect into and profile the network. Next, you&#39;ll notice we also have two directories. The first one called &quot;_host\_vars_&quot; which will house our OSPF host variables (note: you can use the _hosts.yaml_ file instead, but I have chosen to create a separate directory to perform this task). The second is called &quot;_templates_&quot; which will house our OSPF Jinja2 template.
 
 Importantly, you&#39;ll notice a &quot;_capture-golden_&quot; file. This is a very simple bash script used to capture our &quot;golden&quot; snapshot of our desired OSPF state. It simply executes a pyATS command. You can type this command by hand should you wish, but since the output directory has to remain the same since it will be referenced by the _Pynir.py_ script – for consistency, I have elected to execute it from a bash script to prevent me mistyping the output destination. Let&#39;s use Vim and look inside to see what&#39;s going on:
 
