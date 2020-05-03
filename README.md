@@ -46,7 +46,7 @@ Next, let&#39;s look inside the templates directory and open our _ospf.j2_ file:
 
 ![](4.png)
 
-This template will simply access the Keys inside of our host\_var yaml files and populate the template with their corresponding Values to build our desired OSPF configuration.
+This template will simply reference the Keys specificed in our host\_var yaml files and populate the template with their corresponding Values to build our desired OSPF configuration.
 
 You will notice we have a _nornir-ospf.py_ script. This is the script we will use to first initially push our desired state onto the routers. This script simply pulls desired state from our _host\_vars_ and pushes them through our Jinja2 template onto the network. In other words, it does not remove old stale configs (like _Pynir.py_ will) so the assumption here is that we are working with a blank slate on the devices. Let&#39;s look inside the script:
 
