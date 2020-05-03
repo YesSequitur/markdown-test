@@ -73,7 +73,7 @@ Now we have the ability to remove all current OSPF configuration, we create a cu
 
 ![](10.png)
 
-The next part of the script is effectively what executes first and precedes our two custom functions (with will only execute upon certain conditions). Let&#39;s look at it. First we use the OS and Subprocess python modules to first execute the shell command &quot;_pyats learn ospf --testbed-file testbed.yaml --output ospf-current_&quot; to relearn the current state of the network&#39;s OSPF configs, and then running a diff between the current configs, and our previously saved golden config – &quot;_pyats diff desired-ospf/ ospf-current –output ospfdiff_&quot;. We then read the output and search for the string &quot;_Diff can be found_&quot;. If a difference is found, we are alerted to the discrepancy and offered the choice to rollback to our desired state.
+The next part of the script is effectively what executes first and precedes our two custom functions (with will only execute upon certain conditions). Let&#39;s look at it. First we use the OS and Subprocess python modules to first execute the shell command &quot;_pyats learn ospf --testbed-file testbed.yaml --output ospf-current_&quot; to relearn the current state of the network&#39;s OSPF configs, and then run a diff between the current configs, and our previously saved golden config – &quot;_pyats diff desired-ospf/ ospf-current –output ospfdiff_&quot;. We then read the output and search for the string &quot;_Diff can be found_&quot;. If a difference is found, we are alerted to the discrepancy and offered the choice to rollback to our desired state.
 
 ![](11.png)
 
