@@ -12,8 +12,8 @@ After we have conducted the initial steps we will then deploy a python script (P
 - Invoke pyATS to profile the current OSPF configuration and compare it to the golden image previously captured.
 - If pyATS detects a difference – the terminal will prompt an alert signalling that OSPF in currently out of sync with desired state
 - The script will then give the user the option to rollback to desired state
-- Should the user answer No – the script ends and all OSPF Currents settings and Diff artefacts are left and are able to be inspected
-- Should the user answer Yes – the script invokes Nornir to first erase all OSPF configurations currently in the network before reimplementing desired state by pulling information from host variable definition files and using jinja2 templates.
+- Should the user answer No – the script ends and all current OSPF settings and Diff artefacts are left and are able to be inspected
+- Should the user answer Yes – the script invokes Nornir to first erase all OSPF configurations currently in the network, before reimplementing desired state by pulling information from host variable definition files and leveraging jinja2 templating.
 - Lastly, if the script detects that the current OSPF profile is identical to the OSPF desired state, it will generate a message informing us that all current configurations are matching our desired state.
 
 
