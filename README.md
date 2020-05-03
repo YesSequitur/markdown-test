@@ -16,6 +16,8 @@ After we have conducted the initial steps we like then deploy a python script (P
 - Should the user answer Yes – the script invokes Nornir to first erase all OSPF configurations currently in the network before reimplementing desired state by pulling information from host variable definition files and using jinja2 templates.
 - Lastly, if the script detects that the current OSPF profile is identical to the OSPF desired state, a message
 
+
+
 To begin, let&#39;s first look at the directory structure and setup:
 
 ![](1.png)
