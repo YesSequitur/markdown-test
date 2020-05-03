@@ -87,6 +87,8 @@ Lastly, should the script detect no changes between the current state of our OSP
 ![](13.png)
 
 ------------------------------------------------------------------------------------------------------------------------------
+## Demo 
+
 Now that we understand the logic of the script, let&#39;s perform a demo and see the workflow in action. Now remember, we have already deployed our initial desired state and captured that snapshot using both the _nornir-ospf.py_ and _capture-golden_ scripts. Let&#39;s first &quot;break&quot; the network by adding some unwanted OSPF configurations on R8:
 
 ![](14.png)
