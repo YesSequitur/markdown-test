@@ -133,5 +133,8 @@ You can download the script and all subsequent configurations at:
 
 [https://github.com/IPvZero/pynir](https://github.com/IPvZero/pynir)
 
+### Contact
 
-You can find me on [Twitter](https://twitter.com/IPvZero)
+[Twitter](https://twitter.com/IPvZero)
+
+[Youtube](https://youtube.com/c/IPvZero)
