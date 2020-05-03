@@ -118,7 +118,7 @@ Pynir then pulls out desired state from our host varables, builds our configurat
 
 For our final validation, let&#39;s rerun the script and ensure that we are now in compliance with our desired state:
 
-![](21.png)
+![](22.png)
 
 Excellent! Everything is back to the way it should be.
 
