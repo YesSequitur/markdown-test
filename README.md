@@ -52,7 +52,7 @@ You will notice we have a _nornir-ospf.py_ script. This is the script we will us
 
 ![](5.png)
 
-This is a fairly typical script which will pull information from the desired state specified in our _host\_vars_ yaml files, save the information and use those values to build our configurations based in the syntax specified in our Jinja2 template. Nornir then invokes Netmiko to push those configurations out to all of our respective devices in the network. Now that we understand what&#39;s going on, let&#39;s execute that script and push our desired state onto our otherwise blank network:
+This is a fairly typical script which will pull information from the desired state specified in our _host\_vars_ yaml files, save the information and use those values to build our configurations based on the syntax specified in our Jinja2 template. Nornir then invokes Netmiko to push those configurations out to all of our respective devices in the network. Now that we understand what&#39;s going on, let&#39;s execute that script and push our desired state onto our otherwise blank network:
 
 ![](6.png)
 
