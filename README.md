@@ -6,6 +6,7 @@ The workflow we will follow in this tutorial will be first:
 
 - Deploy OSPF desired state using Nornir
 - Immediately deploying pyATS to capture a golden image profile of this &quot;desired state&quot;
+----------------------------------------------------------------------------------------------------
 
 After we have conducted the initial steps we like then deploy a python script (Pynir.py) that will:
 
