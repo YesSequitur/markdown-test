@@ -24,6 +24,8 @@ To begin, let&#39;s first look at the directory structure and setup:
 
 As you can see we can our basic Nornir yaml files:
 
+``` from nornir import InitNornir
+```
 - _hosts.yaml_
 - _groups.yaml_
 - _defaults.yaml_
