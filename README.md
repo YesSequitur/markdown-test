@@ -67,7 +67,19 @@ As you can see the bash script simply tells pyATS to learn the network&#39;s OSP
 
 Let&#39;s take a look inside the _host\_vars_ directory and see what our host variable definition files look like. For brevity, let&#39;s just look at _R1.yaml_:
 
-![](3.png)
+```
+---
+OSPF:
+    process: 1
+    id : 1.1.1.1
+    networks:
+      - net: 192.168.1.0
+        wildcard: 0.0.0.255
+        area: 0
+      - net: 192.168.10.0
+        wildcard: 0.0.0.255
+        area: 0
+```
 
 We have a very basic OSPF setup which lists the process ID number, the RID, and the network statement configs for the router. R2 through to R8 have very similar configurations. As this is simply a demo, I have created easily identifiable variations between files. For example, R5 uses OSPF process ID of 5, with a RID of 5.5.5.5 and the networks it advertises are &quot;192.168.5.0&quot; and &quot;192.168.50.0&quot;. These files represent our desired state. In other words, this is what our network &quot;should look like&quot;.
 
