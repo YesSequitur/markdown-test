@@ -7,7 +7,7 @@ The workflow we will follow in this tutorial will be first:
 - Immediately deploying pyATS to capture a golden image profile of this &quot;desired state&quot;
 ----------------------------------------------------------------------------------------------------
 
-After we have conducted the initial steps we will then deploy a python script (Pynir.py) that will:
+After we have conducted the initial steps we will then deploy a python script (```Pynir.py```) that will:
 
 - Invoke pyATS to profile the current OSPF configuration and compare it to the golden image previously captured.
 - If pyATS detects a difference – the terminal will prompt an alert signalling that OSPF in currently out of sync with desired state
@@ -53,7 +53,7 @@ As you can see we can our basic Nornir yaml files:
 ```groups.yaml```
 ```defaults.yaml```
 
-Notice that there is also a ```testbed.yaml``` file to allow pyATS to connect into and profile the network. Next, you&#39;ll notice we also have two directories. The first one called ```host\_vars``` which will house our OSPF host variables (note: you can use the ```hosts.yaml``` file instead, but I have chosen to create a separate directory to perform this task). The second is called ```templates``` which will house our OSPF Jinja2 template.
+Notice that there is also a ```testbed.yaml``` file to allow pyATS to connect into and profile the network. Next, you&#39;ll notice we also have two directories. The first one called ```host_vars``` which will house our OSPF host variables (note: you can use the ```hosts.yaml``` file instead, but I have chosen to create a separate directory to perform this task). The second is called ```templates``` which will house our OSPF Jinja2 template.
 
 Importantly, you&#39;ll notice a ```capture-golden``` file. This is a very simple bash script used to capture our &quot;golden&quot; snapshot of our desired OSPF state. It simply executes a pyATS command. You can type this command by hand should you wish, but since the output directory has to remain the same since it will be referenced by the ```Pynir.py``` script – for consistency, I have elected to execute it from a bash script to prevent me mistyping the output destination. Let&#39;s look inside to see what&#39;s going on:
 
@@ -65,7 +65,7 @@ pyats learn ospf --testbed-file testbed.yaml --output desired-ospf
 
 As you can see the bash script simply tells pyATS to learn the network&#39;s OSPF configurations and save the output into a directory called ```desired-ospf```. This directory will act as our reference point.
 
-Let&#39;s take a look inside the ```host\_vars``` directory and see what our host variable definition files look like. For brevity, let&#39;s just look at ```R1.yaml```:
+Let&#39;s take a look inside the ```host_vars``` directory and see what our host variable definition files look like. For brevity, let&#39;s just look at ```R1.yaml```:
 
 ```
 ---
@@ -95,7 +95,7 @@ network {{ n.net }} {{ n.wildcard }} area {{ n.area }}
 
 This template will simply reference the Keys specificed in our host\_var yaml files and populate the template with their corresponding Values to build our desired OSPF configuration.
 
-You will notice we have a ```nornir-ospf.py``` script. This is the script we will use to first initially push our desired state onto the routers. This script simply pulls desired state from our ```host\_vars``` and pushes them through our Jinja2 template onto the network. In other words, it does not remove old stale configs (like ```Pynir.py``` will) so the assumption here is that we are working with a blank slate on the devices. Let&#39;s look inside the script:
+You will notice we have a ```nornir-ospf.py``` script. This is the script we will use to first initially push our desired state onto the routers. This script simply pulls desired state from our ```host_vars``` and pushes them through our Jinja2 template onto the network. In other words, it does not remove old stale configs (like ```Pynir.py``` will) so the assumption here is that we are working with a blank slate on the devices. Let&#39;s look inside the script:
 
 ```python
 from nornir import InitNornir
@@ -119,7 +119,7 @@ print_result(results)
 ```
 
 
-This is a fairly typical script which will pull information from the desired state specified in our ```host\_vars``` yaml files, save the information and use those values to build our configurations based on the syntax specified in our Jinja2 template. Nornir then invokes Netmiko to push those configurations out to all of our respective devices in the network. Now that we understand what&#39;s going on, let&#39;s execute that script and push our desired state onto our otherwise blank network:
+This is a fairly typical script which will pull information from the desired state specified in our ```host_vars``` yaml files, save the information and use those values to build our configurations based on the syntax specified in our Jinja2 template. Nornir then invokes Netmiko to push those configurations out to all of our respective devices in the network. Now that we understand what&#39;s going on, let&#39;s execute that script and push our desired state onto our otherwise blank network:
 
 ![](6.png)
 
@@ -149,7 +149,9 @@ os.system(clear_command)
 custom_fig = Figlet(font='isometric3')
 print(custom_fig.renderText('pyNIR'))
 ```
-Next, we create a custom function called ```clean_ospf```. The first challenge of the script was to find a way to strip away all OSPF configurations, should that be required. The problem with automating over legacy devices with no API capabilities, however, is that we are heavily reliant on screen-scraping – an inelegant and unfortunately necessary solution. To do so, I made the decision to use Nornir to execute a ```show run | s ospf``` on all devices, saved the resulting output, and began screen-scraping to identify digits in the text. The aim here was to identify any OSPF process IDs which could then be extracted and used to negate the process by executing a ```no router opsf```; followed by the relevant process ID. The challenge here is that the show command output would also include area ID information – and OSPFs most common area configuration is for area 0. Of course ```router ospf 0``` is not a legal command, so in order to avoid this I included a conditional statement that would skip over and ```continue``` past any number zeros in the output. The second challenge would be avoiding needless repetition. Should OSPF be configured via the interfaces, the resulting show output could, for example, have multiple ```ip ospf 1 area 0```, ```ip ospf 1 area 0```, etc. Parsing out the this information could lead to the script executing multiple ```no router ospf 1```; commands which is, of course, unnecessary. To avoid this, I elected to push all output into a python list, and from there remove all duplicates. There is still, however, an inefficiency given that the show output could, for example, show a multi-area OSPF configuration all within the same process. This could result in a script seeing an ```ip ospf 1 area 5``` configuration and attempting to execute a superfluous ```no router ospf 5```. However, given that the script has protections against repetitive execution, and that routers will have limited areas configured per device (maybe 3 different areas at most per device, if at all), I made the decision that this was an acceptable inefficiency. Like I say, there is nothing elegant about screen-scraping and sometimes a 90% solution is better than no solution:
+Next, we create a custom function called ```clean_ospf```. The first challenge of the script was to find a way to strip away all OSPF configurations, should that be required. The problem with automating over legacy devices with no API capabilities, however, is that we are heavily reliant on screen-scraping – an inelegant and unfortunately necessary solution. To do so, I made the decision to use Nornir to execute a ```show run | s ospf``` on all devices, saved the resulting output, and began screen-scraping to identify digits in the text. The aim here was to identify any OSPF process IDs which could then be extracted and used to negate the process by executing a ```no router opsf```; followed by the relevant process ID. The challenge here is that the show command output would also include area ID information – and OSPFs most common area configuration is for area 0. Of course ```router ospf 0``` is not a legal command, so in order to avoid this I included a conditional statement that would skip over and ```continue``` past any number zeros in the output. The second challenge would be avoiding needless repetition. Should OSPF be configured via the interfaces, the resulting show output could, for example, have multiple:
+```ip ospf 1 area 0 ip ospf 1 area 0```
+Parsing out the this information could lead to the script executing multiple ```no router ospf 1```; commands which is, of course, unnecessary. To avoid this, I elected to push all output into a python list, and from there remove all duplicates. There is still, however, an inefficiency given that the show output could, for example, show a multi-area OSPF configuration all within the same process. This could result in a script seeing an ```ip ospf 1 area 5``` configuration and attempting to execute a superfluous ```no router ospf 5```. However, given that the script has protections against repetitive execution, and that routers will have limited areas configured per device (maybe 3 different areas at most per device, if at all), I made the decision that this was an acceptable inefficiency. Like I say, there is nothing elegant about screen-scraping and sometimes a 90% solution is better than no solution:
 
 ```python
 def clean_ospf(task):
