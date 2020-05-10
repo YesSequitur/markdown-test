@@ -97,7 +97,27 @@ This template will simply reference the Keys specificed in our host\_var yaml fi
 
 You will notice we have a _nornir-ospf.py_ script. This is the script we will use to first initially push our desired state onto the routers. This script simply pulls desired state from our _host\_vars_ and pushes them through our Jinja2 template onto the network. In other words, it does not remove old stale configs (like _Pynir.py_ will) so the assumption here is that we are working with a blank slate on the devices. Let&#39;s look inside the script:
 
-![](5.png)
+```python
+from nornir import InitNornir
+from nornir.plugins.tasks.data import load_yaml
+from nornir.plugins.tasks.text import template_file
+from nornir.plugins.functions.text import print_result
+from nornir.plugins.tasks.networking import netmiko_send_config
+
+def load_ospf(task):
+    data = task.run(task=load_yaml,file=f'./host_vars/{task.host}.yaml')
+    task.host["OSPF"] = data.result["OSPF"]
+    r = task.run(task=template_file, template="ospf.j2", path="./templates")
+    task.host["config"] = r.result
+    output = task.host["config"]
+    send = output.splitlines()
+    task.run(task=netmiko_send_config, name="IPvZero Commands", config_commands=send)
+
+nr = InitNornir()
+results = nr.run(load_ospf)
+print_result(results)
+```
+
 
 This is a fairly typical script which will pull information from the desired state specified in our _host\_vars_ yaml files, save the information and use those values to build our configurations based on the syntax specified in our Jinja2 template. Nornir then invokes Netmiko to push those configurations out to all of our respective devices in the network. Now that we understand what&#39;s going on, let&#39;s execute that script and push our desired state onto our otherwise blank network:
 
