@@ -263,7 +263,7 @@ Upon examination it is clear now that these configuration are certainly not mean
 
 ![](19.png)
 
-This selection triggers Nornir to execute our custom functions that remove all current OSPF configs and artefacts before redeploying OSPF as specified in our ```host_var``` definition files.
+This selection triggers Nornir to execute our custom functions that remove all current OSPF configs and artefacts before redeploying OSPF as specified in our ```host_vars``` definition files.
 
 First the OSPF configurations are identified by the show output, and then negated:
 
