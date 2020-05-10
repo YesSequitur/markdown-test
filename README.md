@@ -85,7 +85,13 @@ We have a very basic OSPF setup which lists the process ID number, the RID, and 
 
 Next, let&#39;s look inside the templates directory and open our _ospf.j2_ file:
 
-![](4.png)
+```
+router ospf {{ host.OSPF.process }}
+router-id {{ host.OSPF.id }}
+{% for n in host.OSPF.networks %}
+network {{ n.net }} {{ n.wildcard }} area {{ n.area }}
+{% endfor %}
+```
 
 This template will simply reference the Keys specificed in our host\_var yaml files and populate the template with their corresponding Values to build our desired OSPF configuration.
 
