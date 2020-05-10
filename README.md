@@ -223,8 +223,17 @@ Should we choose **not** to rollback, however, and instead want to inspect those
 
 Lastly, should the script detect no changes between the current state of our OSPF network and the configurations in our golden capture – the script simply ends and informs us that all OSPF configurations are matching desired state:
 
-![](13.png)
 
+```python
+else:
+    clean_up = "rm -r ospfdiff ospf-current"
+    os.system(clean_up)
+    os.system(clear_command)
+    print("*" * 75)
+    print(Fore.GREEN + "Good news! OSPF configurations are matching desired state!" + Style.RESET_ALL)
+    print("*" * 75)
+
+```
 ------------------------------------------------------------------------------------------------------------------------------
 ## Demo - Let's Break The Network!
 
