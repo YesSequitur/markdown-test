@@ -204,7 +204,20 @@ if "Diff can be found" in stringer:
 
 Should we answer &quot;y&quot; and affirm our decision to rollback, the script will first remove all current ospf and diff artefacts before calling our &quot;_clean\_ospf_&quot; custom function, which, in turn, calls our &quot;_desired-ospf_&quot; function and prints the output.
 
-![](12.png)
+```python
+    if answer == "y":
+        def main() -> None:
+            clean_up = "rm -r ospfdiff ospf-current"
+            os.system(clean_up)
+            os.system(clear_command)
+            nr = InitNornir(config_file="config.yaml")
+            output = nr.run(task=clean_ospf)
+            print_title("REVERSING OSPF CONFIGURATION BACK INTO DESIRED STATE")
+            print_result(output)
+
+        if __name__ == '__main__':
+                main()
+```
 
 Should we choose **not** to rollback, however, and instead want to inspect those changes in detail - by selecting &quot;n&quot; the script simply terminates and leaves all artefacts for our inspection.
 
