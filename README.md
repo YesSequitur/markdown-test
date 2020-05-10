@@ -170,6 +170,8 @@ def clean_ospf(task):
 
 Now we have the ability to remove all current OSPF configuration, we create a custom function called &quot;_desired\_ospf_&quot;. This is almost identical to the earlier script and simply builds our configuration from host\_vars definition files and pushes them through our jinja2 OSPF template and out to the devices:
 
+
+
 ```python
 def desired_ospf(task):
     data = task.run(task=load_yaml, name="Pulling from Definition Files", file=f'./host_vars/{task.host}.yaml')
@@ -181,9 +183,24 @@ def desired_ospf(task):
     task.run(task=netmiko_send_config, name="Implementing OSPF Desired State", config_commands=send)
 ```
 
+
 The next part of the script is effectively what executes first and precedes our two custom functions (with will only execute upon certain conditions). Let&#39;s look at it. First we use the OS and Subprocess python modules to first execute the shell command &quot;_pyats learn ospf --testbed-file testbed.yaml --output ospf-current_&quot; to relearn the current state of the network&#39;s OSPF configs, and then run a diff between the current configs, and our previously saved golden config – &quot;_pyats diff desired-ospf/ ospf-current –output ospfdiff_&quot;. We then read the output and search for the string &quot;_Diff can be found_&quot;. If a difference is found, we are alerted to the discrepancy and offered the choice to rollback to our desired state.
 
-![](11.png)
+```python
+current = "pyats learn ospf --testbed-file testbed.yaml --output ospf-current"
+os.system(current)
+command = subprocess.run(["pyats", "diff", "desired-ospf/", "ospf-current", "--output", "ospfdiff"], stdout=subprocess.PIPE)
+stringer = str(command)
+if "Diff can be found" in stringer:
+    os.system(clear_command)
+    print(Fore.CYAN + "#" * 70)
+    print(Fore.RED + "ALERT: " + Style.RESET_ALL + "CURRENT OSPF CONFIGURATIONS ARE NOT IN SYNC WITH DESIRED STATE!")
+    print(Fore.CYAN + "#" * 70)
+    print("\n")
+    answer = input(Fore.YELLOW +
+            "Would you like to reverse the current OSPF configuration back to its desired state? " + Style.RESET_ALL + "<y/n>: "
+)
+```
 
 Should we answer &quot;y&quot; and affirm our decision to rollback, the script will first remove all current ospf and diff artefacts before calling our &quot;_clean\_ospf_&quot; custom function, which, in turn, calls our &quot;_desired-ospf_&quot; function and prints the output.
 
