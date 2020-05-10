@@ -130,8 +130,25 @@ With our desired state now present on the network, let&#39;s immediately use pyA
 pyATS has successfully profiled our desired state and you will notice the addition of a new directory called &quot;_desired-ospf_&quot; which houses of all of our detailed OSPF information for each device. 
 Now that we have pushed our desired state and successfully created a snapshot for future comparison, let&#39;s look at the main script which we will use for our OSPF management going forward, &quot;_Pynir.py_&quot;. The script is relatively long so let&#39;s break it down into sections. First we begin with our imports - and I have also included a Pyfiglet banner for purely aesthetic purposes (who doesn&#39;t like to make their scripts pretty, right?).
 
-![](8.png)
+```python
+import os
+import subprocess
+import colorama
+from colorama import Fore, Style
+from nornir import InitNornir
+from nornir.plugins.tasks.networking import netmiko_send_command
+from nornir.plugins.functions.text import print_result, print_title
+from nornir.plugins.tasks.networking import netmiko_send_config
+from nornir.plugins.tasks.data import load_yaml
+from nornir.plugins.tasks.text import template_file
+from pyfiglet import Figlet
 
+nr = InitNornir(config_file="config.yaml")
+clear_command = "clear"
+os.system(clear_command)
+custom_fig = Figlet(font='isometric3')
+print(custom_fig.renderText('pyNIR'))
+```
 Next, we create a custom function called &quot;_clean\_ospf_&quot;. The first challenge of the script was to find a way to strip away all OSPF configurations, should that be required. The problem with automating over legacy devices with no API capabilities, however, is that we are heavily reliant on screen-scraping – an inelegant and unfortunately necessary solution. To do so, I made the decision to use Nornir to execute a &quot;_show run | s ospf_&quot; on all devices, saved the resulting output, and began screen-scraping to identify digits in the text. The aim here was to identify any OSPF process IDs which could then be extracted and used to negate the process by executing a &quot;_no router opsf_&quot; followed by the relevant process ID. The challenge here is that the show command output would also include area ID information – and OSPFs most common area configuration is for area 0. Of course &quot;_router ospf 0_&quot; is not a legal command, so in order to avoid this I included a conditional statement that would skip over and &quot;continue&quot; past any number zeros in the output. The second challenge would be avoiding needless repetition. Should OSPF be configured via the interfaces, the resulting show output could, for example, have multiple &quot;_ip ospf 1 area 0_&quot;, &quot;_ip ospf 1 area 0_&quot;, etc. Parsing out the this information could lead to the script executing multiple &quot;_no router ospf 1_&quot; commands which is, of course, unnecessary. To avoid this, I elected to push all output into a python list, and from there remove all duplicates. There is still, however, an inefficiency given that the show output could, for example, show a multi-area OSPF configuration all within the same process. This could result in a script seeing an &quot;_ip ospf 1 area 5_&quot; configurations and attempting to execute a superfluous &quot;_no router ospf 5_&quot;. However, given that the script has protections against repetitive execution, and that routers will have limited areas configured per device (maybe 3 different areas at most per device, if at all), I made the decision that this was an acceptable inefficiency. Like I say, there is nothing elegant about screen-scraping and sometimes a 90% solution is better than no solution:
 
 ![](9.png)
