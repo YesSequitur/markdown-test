@@ -19,8 +19,33 @@ After we have conducted the initial steps we will then deploy a python script (P
 
 
 To begin, let&#39;s first look at the directory structure and setup:
+```
+ipvzero@MSI:~/Nornir-Blog$ tree
+.
+├── Pynir.py
+├── capture-golden
+├── config.yaml
+├── defaults.yaml
+├── groups.yaml
+├── host_vars
+│   ├── R1.yaml
+│   ├── R2.yaml
+│   ├── R3.yaml
+│   ├── R4.yaml
+│   ├── R5.yaml
+│   ├── R6.yaml
+│   ├── R7.yaml
+│   └── R8.yaml
+├── hosts.yaml
+├── nornir-ospf.py
+├── nornir.log
+├── templates
+│   └── ospf.j2
+└── testbed.yaml
 
-![](1.png)
+2 directories, 18 files
+```
+
 
 As you can see we can our basic Nornir yaml files:
 
