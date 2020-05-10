@@ -49,9 +49,6 @@ ipvzero@MSI:~/Nornir-Blog$ tree
 
 As you can see we can our basic Nornir yaml files:
 
-``` 
-from nornir import InitNornir
-```
 - _hosts.yaml_
 - _groups.yaml_
 - _defaults.yaml_
@@ -60,7 +57,11 @@ Notice that there is also a &quot;_testbed.yaml_&quot; file to allow pyATS to co
 
 Importantly, you&#39;ll notice a &quot;_capture-golden_&quot; file. This is a very simple bash script used to capture our &quot;golden&quot; snapshot of our desired OSPF state. It simply executes a pyATS command. You can type this command by hand should you wish, but since the output directory has to remain the same since it will be referenced by the _Pynir.py_ script – for consistency, I have elected to execute it from a bash script to prevent me mistyping the output destination. Let&#39;s use Vim and look inside to see what&#39;s going on:
 
-![](2.png)
+```bash
+#!/bin/bash
+pyats learn ospf --testbed-file testbed.yaml --output desired-ospf
+```
+
 
 As you can see the bash script simply tells pyATS to learn the network&#39;s OSPF configurations and save the output into a directory called &quot;_desired-ospf_&quot;. This directory will act as our reference point.
 
